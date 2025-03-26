@@ -20,6 +20,7 @@ class StoryGraph:
                 node["title"],
                 node["text"],
                 node["choices"],
+                node.get("timer", None),
             )
 
         return StoryGraph(graph)
