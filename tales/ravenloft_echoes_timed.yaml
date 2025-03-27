@@ -1,0 +1,57 @@
+title: "Ravenloft's Echoes: Timed"
+nodes:
+  start:
+    title: "The Gates"
+    text: "The storm rages outside, mirroring the turmoil in your heart. Castle Ravenloft looms before you, a monstrous silhouette clawing at the bruised twilight sky. You've come for answers, for escape, or perhaps for vengeance, but the imposing fortress promises only peril. A cold gust whips around you, carrying a whispered invitation on the wind.\n\nDo you:"
+    choices:
+      Charge boldly through the gates, determined to confront whatever lies within.: page_2
+      Seek a hidden entrance, hoping to avoid a direct confrontation.: page_4
+    timer:
+      duration: 10
+      timeout_node: ending_e
+  page_2:
+    title: "Bold Beginnings"
+    text: "With a surge of adrenaline, you shove open the creaking iron gates. They slam shut behind you with an ominous clang. The courtyard stretches before you, a desolate stage for grotesque statues bathed in an eerie, flickering torchlight. Their gazes seem to follow you, unsettling and watchful.\n\nDo you:"
+    choices:
+      Draw your weapon, feeling a surge of paranoia.: page_3
+      Search for another exit, hoping to avoid a fight.: page_5
+  page_3:
+    title: "A Guardian's Challenge"
+    text: "Steel cold against your grip, your weapon feels reassuring. As you approach a towering warrior statue, its eyes seem to glow red in the torchlight. With a deep rumble, the statue comes alive, its stone muscles rippling beneath a layer of ancient armor.\n\nDo you:"
+    choices:
+      Attack the guardian, determined to fight your way through.: ending_a
+      Seek another path, realizing brute force might not be the answer.: page_5
+    timer:
+      duration: 5
+      timeout_node: ending_d
+  page_4:
+    title: "Hidden Passages"
+    text: "Circling the castle, you discover a hidden passage beneath a crumbling section of the wall. The air inside is thick with dust and decay, a cold, clammy grip on your lungs. You light a torch, casting grotesque shadows that dance on the damp stone walls.\n\nDo you:"
+    choices:
+      Proceed cautiously, trusting your senses in the dim light.: page_5
+  page_5:
+    title: "A Twisting Maze"
+    text: "Whether you entered through the main gate or the hidden passage, you find yourself navigating a labyrinthine corridor. The air grows colder, the oppressive silence broken only by the sound of your own ragged breaths. Every turn seems the same, and doubt begins to gnaw at your resolve.\n\nSuddenly, a hidden door swings open with a groan, revealing a flight of descending stairs. Do you:"
+    choices:
+      Descend the stairs, hoping it leads to a way out.: ending_b
+      Barricade the door and continue searching, fearing a trap.: ending_c
+  ending_a:
+    title: "The Price of Bravery"
+    text: "You clash blades with the stone guardian, a ferocious dance of steel against stone. Your skill prevails, and the statue crumbles. But as you catch your breath, a hidden door slides open in the back of the chamber. A tall, pale figure with crimson eyes emerges, a cruel smile twisting his lips. You stand face-to-face with Strahd.\n\n(You lose!)"
+    choices: {}
+  ending_b:
+    title: "The Unseen Danger"
+    text: "Descending the stairs, you find yourself in a vast cavern filled with bones. A spectral figure floats before you, a wail of despair echoing in the chamber. It's a past victim of Strahd, trapped for eternity. As you reach out to help, the figure attacks, its spectral form draining your life force.\n\n(You lose!)"
+    choices: {}
+  ending_c:
+    title: "A Flicker of Hope"
+    text: "With a heavy heart but a clear head, you barricade the door, determined to find another way. Your persistence pays off. Hours later, you stumble upon a hidden tunnel leading outside the castle walls. The storm has subsided, and a sliver of dawn paints the eastern horizon. You escape Ravenloft, forever scarred by your encounter, but with your life intact.\n\n(You win!)"
+    choices: {}
+  ending_d:
+    title: "You froze!"
+    text: "You stand frozen, unable to move before the terrifying threat. The guardian's blade descends, and darkness claims you.\n\n(You lose!)"
+    choices: {}
+  ending_e:
+    title: "Lost Your Nerve"
+    text: "As you stand before the gates unsure of your next move, the storm grows stronger. Lightning strikes the castle, and the ground beneath you trembles. To brave this castle is folly, you decide to turn back and leave this hopeless endeavor to another fool.\n\n(You lose!)"
+    choices: {}

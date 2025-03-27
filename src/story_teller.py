@@ -17,25 +17,29 @@ class StoryTeller:
         while current_node:
             current_node = self.render_node(current_node)
 
-    async def ask_timed_question(self, node: StoryNode) -> str:
+    async def ask_timed_question(self, node: StoryNode) -> StoryNode:
         if node.timer is None:
             raise ValueError("Node has no timer")
         question_task = asyncio.get_event_loop().create_task(self.ask_question(node))
-        asyncio.get_event_loop().create_task(self.render_timer(node.timer))
+        asyncio.get_event_loop().create_task(self.render_timer(node.timer.duration))
 
         try:
-            async with asyncio.timeout(node.timer):  # type: ignore
-                next_node_choice = await question_task
+            next_node_choice = await asyncio.wait_for(
+                question_task, node.timer.duration
+            )
+            next_node = self.story_graph.get_node(node.choices[next_node_choice])
+            # async with asyncio.timeout(node.timer):  # type: ignore
+            #     next_node_choice = await question_task
         except asyncio.TimeoutError:
             questionary.print("Time's up!", style="bold red")
             await asyncio.sleep(1)
-            next_node_choice = list(node.choices.keys())[0]
+            next_node = self.story_graph.get_node(node.timer.timeout_node)
 
-        return next_node_choice
+        return next_node
 
-    async def render_timer(self, timer: int) -> None:
-        for i in range(timer, 0, -1):
-            questionary.print(f"Time left: {i} seconds", style="bold")
+    async def render_timer(self, duration: int) -> None:
+        for i in range(duration, 0, -1):
+            questionary.print(f"Time left: {i} seconds", style="bold", end="\r")
             await asyncio.sleep(1)
 
     async def ask_question(self, node: StoryNode) -> str:
@@ -54,9 +58,10 @@ class StoryTeller:
                 next_node_choice = questionary.select(
                     "", choices=list(node.choices.keys()), qmark="📖"
                 ).ask()
+                next_node = self.story_graph.get_node(node.choices[next_node_choice])
             else:
-                next_node_choice = asyncio.run(self.ask_timed_question(node))
-            next_node = self.story_graph.get_node(node.choices[next_node_choice])
+                next_node = asyncio.run(self.ask_timed_question(node))
+
             return next_node
         else:
             choice = questionary.select(

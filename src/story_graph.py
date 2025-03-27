@@ -2,6 +2,7 @@ from pathlib import Path
 
 import yaml
 from story_node import StoryNode
+from timer import Timer
 
 
 class StoryGraph:
@@ -15,12 +16,13 @@ class StoryGraph:
 
         graph: dict[str, StoryNode] = {}
         for node_name, node in data["nodes"].items():
+            timer = Timer(**node["timer"]) if "timer" in node else None
             graph[node_name] = StoryNode(
                 node_name,
                 node["title"],
                 node["text"],
                 node["choices"],
-                node.get("timer", None),
+                timer,
             )
 
         return StoryGraph(graph)

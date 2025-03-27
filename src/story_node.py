@@ -1,5 +1,7 @@
 from typing import Optional
 
+from timer import Timer
+
 
 class StoryNode:
     def __init__(
@@ -8,13 +10,13 @@ class StoryNode:
         title: str,
         text: str,
         choices: dict[str, str],
-        timer: Optional[int],
+        timer: Optional[Timer],
     ) -> None:
         self.short_name: str = short_name
         self.title: str = title
         self.text: str = text
         self.choices: dict[str, str] = choices
-        self.timer: Optional[int] = timer
+        self.timer: Optional[Timer] = timer
 
     def __str__(self):
         return self.title
