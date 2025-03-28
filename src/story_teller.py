@@ -10,7 +10,11 @@ from story_node import StoryNode
 
 class StoryTeller:
     def __init__(self, tale_path: Path) -> None:
+        self.tale_path = tale_path
         self.story_graph = StoryGraph.from_yaml(tale_path)
+
+    def reload(self) -> None:
+        self.story_graph = StoryGraph.from_yaml(self.tale_path)
 
     def tell(self) -> None:
         current_node = self.story_graph.get_node("start")
@@ -28,8 +32,6 @@ class StoryTeller:
                 question_task, node.timer.duration
             )
             next_node = self.story_graph.get_node(node.choices[next_node_choice])
-            # async with asyncio.timeout(node.timer):  # type: ignore
-            #     next_node_choice = await question_task
         except asyncio.TimeoutError:
             questionary.print("Time's up!", style="bold red")
             await asyncio.sleep(1)
@@ -69,6 +71,8 @@ class StoryTeller:
                 choices=["Start again", "Choose another story", "Quit"],
             ).ask()
             if choice == "Start again":
+                # Reload story graph to include any changes made to the YAML file
+                self.reload()
                 return self.story_graph.get_node("start")
             elif choice == "Choose another story":
                 return None
